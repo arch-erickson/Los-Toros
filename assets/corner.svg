@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" stroke="#B8913A" stroke-linecap="round" stroke-linejoin="round">
+  <!-- filigree corner, top-left orientation; mirror with CSS for the other corners -->
+  <path d="M4 118V38C4 19 19 4 38 4H118" stroke-width="1.6"/>
+  <path d="M11 118V42C11 25 25 11 42 11H118" stroke-width=".9"/>
+  <!-- scroll curls -->
+  <path d="M22 70C22 42 42 22 70 22" stroke-width="1.4"/>
+  <path d="M70 22C82 22 88 30 84 37C81 42 73 41 73 35C73 31 77 30 79 32" stroke-width="1.4"/>
+  <path d="M22 70C22 82 30 88 37 84C42 81 41 73 35 73C31 73 30 77 32 79" stroke-width="1.4"/>
+  <!-- leaf / fleur at the corner -->
+  <path d="M30 30C40 22 52 24 56 34C46 36 38 36 30 30Z" fill="#B8913A" fill-opacity=".22" stroke-width="1.2"/>
+  <path d="M30 30C22 40 24 52 34 56C36 46 36 38 30 30Z" fill="#B8913A" fill-opacity=".22" stroke-width="1.2"/>
+  <path d="M30 30L44 44" stroke-width="1.2"/>
+  <path d="M18 18L24 13L30 18L24 23Z" fill="#B8913A" stroke="none"/>
+  <!-- running beads -->
+  <circle cx="96" cy="22" r="1.8" fill="#B8913A" stroke="none"/>
+  <circle cx="106" cy="22" r="1.2" fill="#B8913A" stroke="none"/>
+  <circle cx="22" cy="96" r="1.8" fill="#B8913A" stroke="none"/>
+  <circle cx="22" cy="106" r="1.2" fill="#B8913A" stroke="none"/>
+</svg>
