@@ -3,7 +3,8 @@
    Aged paper, oxblood red, aged gold, iron-gall ink.
    ========================================================== */
 :root {
-  --paper: #F5EEE0;
+  --paper: #FBF9F4;        /* warm white */
+  --paper-2: #F5F1E8;      /* band tint */
   --ink: #2B1810;
   --ink-soft: #5A4536;
   --cream: #FBF3E2;
@@ -30,8 +31,6 @@
   --gutter: clamp(20px, 5vw, 80px);
   --section-y: clamp(80px, 10vw, 152px);
 
-  --paper-img: url("../assets/paper.jpg");
-  --paper-dark-img: url("../assets/paper-dark.jpg");
   --specks-light: url("../assets/specks-light.png");
   --specks-dark: url("../assets/specks-dark.png");
   --ease: cubic-bezier(.7, 0, .2, 1);
@@ -41,7 +40,7 @@
 html { scroll-behavior: smooth; scroll-padding-top: 110px; }
 body {
   margin: 0;
-  background: var(--paper) var(--paper-img) 0 0 / 1024px repeat;
+  background: var(--paper);
   color: var(--ink);
   font: 400 var(--fs0)/1.65 var(--sans);
   -webkit-font-smoothing: antialiased;
@@ -139,7 +138,7 @@ body.is-locked { overflow: hidden; }
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); opacity: 0; transition: opacity .45s;
 }
-.header.is-scrolled { background: var(--paper) var(--paper-img) 0 0 / 1024px; box-shadow: 0 12px 30px -22px rgba(43,24,16,.55); }
+.header.is-scrolled { background: var(--paper); box-shadow: 0 12px 30px -22px rgba(43,24,16,.55); }
 .header.is-scrolled::after { opacity: 1; }
 .header.is-scrolled .nav__link span, .header.is-scrolled .nav__cta span,
 .header.is-scrolled .nav__toggle-label { --tc: var(--ink); --speck: var(--specks-light); }
@@ -283,12 +282,7 @@ body.is-locked .header .nav__toggle-label { --tc: var(--cream); --speck: var(--s
 .disc { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: #F3E8CF; box-shadow: 0 0 0 1px var(--gold-light), 0 0 0 3px rgba(26,14,8,.4), 0 0 0 4px rgba(227,198,128,.4); }
 .disc .ico { width: 22px; height: 22px; }
 
-/* ---------- aged-edge vignette for paper sections ---------- */
 .shop, .visit, .soon { position: relative; }
-.shop::before, .visit::before, .soon::before {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  box-shadow: inset 0 0 140px rgba(120, 82, 30, .16), inset 0 0 40px rgba(120, 82, 30, .08);
-}
 
 /* ---------- the shop ---------- */
 .shop { padding-block: var(--section-y) calc(var(--section-y) * .8); }
@@ -305,7 +299,7 @@ body.is-locked .header .nav__toggle-label { --tc: var(--cream); --speck: var(--s
 /* ---------- visit ---------- */
 .visit {
   padding-block: var(--section-y);
-  background: var(--paper) var(--paper-dark-img) 0 0 / 1024px;
+  background: var(--paper-2);
   border-block: 1px solid var(--rule);
 }
 .visit__grid {
@@ -329,7 +323,7 @@ body.is-locked .header .nav__toggle-label { --tc: var(--cream); --speck: var(--s
 .seal {
   position: relative; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #FFFDF6 0%, #EFE3C6 100%);
-  box-shadow: 0 0 0 1px var(--gold), 0 0 0 5px rgba(245,238,224,.9), 0 0 0 6px var(--rule), 0 6px 14px -8px rgba(43,24,16,.5);
+  box-shadow: 0 0 0 1px var(--gold), 0 0 0 5px var(--paper-2), 0 0 0 6px var(--rule), 0 6px 14px -8px rgba(43,24,16,.5);
 }
 .seal::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1.5px dotted rgba(138,101,36,.7); }
 .seal .ico { width: 36px; height: 36px; position: relative; }
@@ -339,7 +333,7 @@ body.is-locked .header .nav__toggle-label { --tc: var(--cream); --speck: var(--s
 a.fact__value:hover { --tc: var(--red); }
 
 /* hours: clear at a glance, inside an ornamental frame */
-.hours { position: relative; padding: var(--s5) clamp(24px, 3vw, 48px) var(--s4); background: var(--paper) var(--paper-img) 0 0 / 1024px; }
+.hours { position: relative; padding: var(--s5) clamp(24px, 3vw, 48px) var(--s4); background: var(--paper); }
 .hours__head { display: flex; align-items: center; gap: 14px; margin-bottom: var(--s3); }
 .hours__head .ico--lg { width: 40px; height: 40px; }
 .hours__head h3 { font: 400 var(--fs3)/1 var(--serif); filter: url(#ink); }
@@ -359,7 +353,7 @@ a.fact__value:hover { --tc: var(--red); }
 
 /* black map in an ornamental frame */
 .map { display: flex; flex-direction: column; min-height: 640px; }
-.map__frame { position: relative; flex: 1; padding: 14px; background: var(--paper) var(--paper-img) 0 0 / 1024px; }
+.map__frame { position: relative; flex: 1; padding: 14px; background: var(--paper); }
 .map__canvas { position: absolute; inset: 14px; background: #0E0E0E; z-index: 0; isolation: isolate; }
 .map__canvas .leaflet-tile-pane { filter: grayscale(1) invert(1) brightness(.78) contrast(1.15) sepia(.18); }
 .map__directions { --tc: var(--red); align-self: flex-end; margin-top: var(--s3); font: italic 400 var(--fs1)/1.2 var(--serif-i); text-decoration: underline 1px; text-underline-offset: 5px; text-decoration-color: rgba(163,23,31,.6); }
