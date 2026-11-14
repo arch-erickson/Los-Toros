@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=8">
+  <link rel="stylesheet" href="css/styles.css?v=10">
 </head>
 <body>
 
@@ -101,7 +101,8 @@
     <div class="curtain__panel curtain__panel--r"></div>
     <div class="curtain__crest">
       <img src="assets/logo-mark.svg" alt="">
-      <span>Los Toros</span>
+      <span class="curtain__name">Los Toros</span>
+      <span class="curtain__sub">Barbershop</span>
     </div>
   </div>
 
@@ -116,7 +117,7 @@
 
       <a class="nav__brand" href="#top" aria-label="Los Toros, home">
         <img src="assets/logo-mark.svg" alt="">
-        <span class="nav__wordmark">Los Toros</span>
+        <span class="nav__lockup"><span class="nav__wordmark">Los Toros</span><span class="nav__sub">Barbershop</span></span>
       </a>
 
       <ul class="nav__group nav__group--right">
@@ -137,7 +138,7 @@
     <div class="overlay__bg"></div>
     <div class="frame frame--overlay" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <div class="overlay__inner">
-      <img class="overlay__crest" src="assets/logo-mark.svg" alt="">
+      <div class="overlay__brand"><img class="overlay__crest" src="assets/logo-mark.svg" alt=""><span class="nav__wordmark">Los Toros</span><span class="nav__sub">Barbershop</span></div>
       <ul class="overlay__list">
         <li><a href="#services" data-close>Services</a></li>
         <li><a href="#gallery" data-close>Gallery</a></li>
@@ -170,9 +171,9 @@
       </div>
 
       <ul class="hero__bar">
-        <li><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><a href="#visit">982 Westchester Ave, Bronx</a></li>
-        <li><svg class="ico" aria-hidden="true"><use href="#i-watch"/></svg><span data-status>Hours this week</span></li>
-        <li><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+13472843200">(347) 284-3200</a></li>
+        <li><span class="disc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></span><a href="#visit">982 Westchester Ave, Bronx</a></li>
+        <li><span class="disc"><svg class="ico" aria-hidden="true"><use href="#i-watch"/></svg></span><span data-status>Hours this week</span></li>
+        <li><span class="disc"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg></span><a href="tel:+13472843200">(347) 284-3200</a></li>
       </ul>
     </section>
 
@@ -199,12 +200,11 @@
     <!-- VISIT / MAP -->
     <section class="visit" id="visit">
       <div class="visit__grid">
-        <div class="visit__info">
-          <div class="section-head section-head--left">
-            <h2 class="section-title">Visit the Shop</h2>
-            <img class="section-fleuron" src="assets/fleuron.svg" alt="">
-          </div>
+        <div class="visit__head">
+          <h2 class="section-title">Visit the Shop</h2>
+          <img class="section-fleuron" src="assets/fleuron.svg" alt="">
           <p class="visit__lede">Walk-ins are always welcome. Book ahead and your chair is waiting when you arrive.</p>
+        </div>
 
           <ul class="facts">
             <li class="fact">
@@ -230,7 +230,6 @@
               </div>
             </li>
           </ul>
-        </div>
 
         <!-- Hours: built to be read at a glance -->
         <div class="hours" aria-labelledby="hours-title">
@@ -271,6 +270,6 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="js/main.js?v=8"></script>
+  <script src="js/main.js?v=10"></script>
 </body>
 </html>
