@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Los Toros Barber Shop · The Bronx</title>
+  <meta name="description" content="Los Toros Barber Shop — classic cuts, fades, beard work and hot-towel shaves on Westchester Ave in the Bronx.">
+  <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="css/styles.css?v=4">
+</head>
+<body>
+
+  <!-- Entrance curtain -->
+  <div class="curtain" aria-hidden="true">
+    <div class="curtain__panel curtain__panel--l"></div>
+    <div class="curtain__panel curtain__panel--r"></div>
+    <div class="curtain__crest">
+      <img src="assets/logo-mark.svg" alt="">
+      <span>Los Toros</span>
+    </div>
+  </div>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar__inner">
+      <a href="#visit" class="topbar__item">982 Westchester Ave · Bronx, NY</a>
+      <span class="topbar__item topbar__status" data-status>Hours this week</span>
+      <a href="tel:+13472843200" class="topbar__item">(347) 284-3200</a>
+    </div>
+  </div>
+
+  <!-- Header: centered nav, crest in the middle -->
+  <header class="header" data-header>
+    <nav class="nav" aria-label="Main">
+      <ul class="nav__group nav__group--left">
+        <li><a class="nav__link" href="#services"><span>Services</span></a></li>
+        <li><a class="nav__link" href="#gallery"><span>Gallery</span></a></li>
+        <li><a class="nav__link" href="#reviews"><span>Reviews</span></a></li>
+      </ul>
+
+      <a class="nav__brand" href="#top" aria-label="Los Toros home">
+        <img src="assets/logo-mark.svg" alt="">
+        <span class="nav__wordmark">Los Toros</span>
+      </a>
+
+      <ul class="nav__group nav__group--right">
+        <li><a class="nav__link" href="#booking"><span>Booking Guide</span></a></li>
+        <li><a class="nav__link" href="#visit"><span>Visit</span></a></li>
+        <li><a class="nav__cta" href="#booking"><span>Book Now</span></a></li>
+      </ul>
+
+      <button class="nav__toggle" aria-expanded="false" aria-controls="overlay-menu" data-menu-toggle>
+        <span class="nav__toggle-bars" aria-hidden="true"><i></i><i></i></span>
+        <span class="nav__toggle-label">Menu</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Full-screen overlay menu -->
+  <div class="overlay" id="overlay-menu" aria-hidden="true" data-overlay>
+    <div class="overlay__bg"></div>
+    <div class="overlay__inner">
+      <img class="overlay__crest" src="assets/logo-mark.svg" alt="">
+      <ul class="overlay__list">
+        <li><a href="#services" data-close><em>I</em>Services</a></li>
+        <li><a href="#gallery" data-close><em>II</em>Gallery</a></li>
+        <li><a href="#reviews" data-close><em>III</em>Reviews</a></li>
+        <li><a href="#booking" data-close><em>IV</em>Booking Guide</a></li>
+        <li><a href="#visit" data-close><em>V</em>Visit</a></li>
+      </ul>
+      <a class="btn btn--gold" href="#booking" data-close>Book Your Chair</a>
+      <p class="overlay__foot">982 Westchester Ave · Bronx, NY 10459 · <a href="tel:+13472843200">(347) 284-3200</a></p>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero__lattice" aria-hidden="true"></div>
+      <div class="hero__content">
+        <p class="eyebrow reveal"><span class="eyebrow__rule"></span>Barbería · The Bronx<span class="eyebrow__rule"></span></p>
+        <img class="hero__crest reveal" src="assets/logo-mark.svg" alt="Los Toros crest">
+        <h1 class="hero__title reveal">Los Toros</h1>
+        <p class="hero__sub reveal">Barber Shop</p>
+        <p class="hero__lede reveal">Sharp fades, clean lineups and hot-towel shaves on Westchester Ave. Sit down a regular. Walk out royalty.</p>
+        <div class="hero__ctas reveal">
+          <a class="btn btn--red" href="#booking">Book an Appointment</a>
+          <a class="btn btn--outline" href="#services">View Services</a>
+        </div>
+      </div>
+
+      <div class="arches">
+        <figure class="arch reveal">
+          <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=900&q=70&auto=format&fit=crop" alt="Barber chairs in a brick-walled shop (placeholder photo)">
+        </figure>
+        <figure class="arch arch--tall reveal">
+          <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=900&q=70&auto=format&fit=crop" alt="Barber finishing a skin fade (placeholder photo)">
+        </figure>
+        <figure class="arch reveal">
+          <img src="https://images.unsplash.com/photo-1512690459411-b9245aed614b?w=900&q=70&auto=format&fit=crop" alt="Leather barber chair (placeholder photo)">
+        </figure>
+      </div>
+    </section>
+
+    <!-- VISIT / MAP -->
+    <section class="visit" id="visit">
+      <div class="visit__lattice" aria-hidden="true"></div>
+      <div class="visit__grid">
+        <div class="visit__info">
+          <p class="eyebrow eyebrow--left reveal"><span class="eyebrow__rule"></span>Visit the Shop</p>
+          <h2 class="section-title reveal">Come for the cut.<br><span>Leave like royalty.</span></h2>
+          <p class="visit__lede reveal">At Los Toros you'll find skilled barbers, a chair that's always ready and a crew that treats every client like the king of the block.</p>
+
+          <ul class="facts">
+            <li class="fact reveal">
+              <span class="fact__icon"><svg viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.3 7 13 7 13s7-7.7 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg></span>
+              <div>
+                <span class="fact__label">Address</span>
+                <a class="fact__value" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener">982 Westchester Ave<br>Bronx, NY 10459</a>
+              </div>
+            </li>
+            <li class="fact reveal">
+              <span class="fact__icon"><svg viewBox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1l-2.3 2.2Z"/></svg></span>
+              <div>
+                <span class="fact__label">Call or Text</span>
+                <a class="fact__value" href="tel:+13472843200">(347) 284-3200</a>
+              </div>
+            </li>
+            <li class="fact reveal">
+              <span class="fact__icon"><svg viewBox="0 0 24 24"><path d="M4 21V4l8-2 8 2v17h-6v-5h-4v5H4Zm4-12h2V7H8v2Zm6 0h2V7h-2v2Zm-6 4h2v-2H8v2Zm6 0h2v-2h-2v2Z"/></svg></span>
+              <div>
+                <span class="fact__label">Getting Here</span>
+                <span class="fact__value">2 / 5 trains to Simpson St<br><small>Street parking on Westchester Ave</small></span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Hours: built to be read at a glance -->
+        <div class="hours reveal" aria-labelledby="hours-title">
+          <div class="hours__head">
+            <h3 id="hours-title">Hours</h3>
+            <span class="hours__badge" data-open-badge>—</span>
+          </div>
+          <ol class="hours__list" data-hours>
+            <li data-day="1"><span class="d">Monday</span><span class="t">9 AM <i>–</i> 8 PM</span></li>
+            <li data-day="2"><span class="d">Tuesday</span><span class="t">9 AM <i>–</i> 8 PM</span></li>
+            <li data-day="3"><span class="d">Wednesday</span><span class="t">9 AM <i>–</i> 8 PM</span></li>
+            <li data-day="4"><span class="d">Thursday</span><span class="t">9 AM <i>–</i> 8 PM</span></li>
+            <li data-day="5"><span class="d">Friday</span><span class="t">9 AM <i>–</i> 9 PM</span></li>
+            <li data-day="6"><span class="d">Saturday</span><span class="t">8 AM <i>–</i> 9 PM</span></li>
+            <li data-day="0"><span class="d">Sunday</span><span class="t">10 AM <i>–</i> 5 PM</span></li>
+          </ol>
+          <p class="hours__note">Walk-ins welcome · Appointments get priority</p>
+        </div>
+
+        <div class="map reveal">
+          <div class="map__frame">
+            <div id="map" class="map__canvas" role="region" aria-label="Map showing Los Toros at 982 Westchester Ave"></div>
+          </div>
+          <a class="map__directions" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener">Get Directions <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sections still to come in the full build -->
+    <section class="soon" id="services">
+      <p class="eyebrow"><span class="eyebrow__rule"></span>Coming in the full build<span class="eyebrow__rule"></span></p>
+      <p class="soon__list">Services &amp; Prices · Gallery · Reviews · Booking Guide · Footer</p>
+      <span id="gallery"></span><span id="reviews"></span><span id="booking"></span>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="js/main.js?v=4"></script>
+</body>
+</html>
