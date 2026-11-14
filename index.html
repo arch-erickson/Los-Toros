@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Los Toros Barber Shop · The Bronx</title>
   <meta name="description" content="Los Toros Barber Shop: fades, lineups, beard work and hot-towel shaves at 982 Westchester Ave in the Bronx.">
-  <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon-64.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=10">
+  <link rel="stylesheet" href="css/styles.css?v=13">
 </head>
 <body>
 
@@ -100,9 +101,7 @@
     <div class="curtain__panel curtain__panel--l"></div>
     <div class="curtain__panel curtain__panel--r"></div>
     <div class="curtain__crest">
-      <img src="assets/logo-mark.svg" alt="">
-      <span class="curtain__name">Los Toros</span>
-      <span class="curtain__sub">Barbershop</span>
+      <img class="curtain__logo" src="assets/logo-800.webp" alt="">
     </div>
   </div>
 
@@ -115,9 +114,8 @@
         <li><a class="nav__link" href="#reviews"><span>Reviews</span></a></li>
       </ul>
 
-      <a class="nav__brand" href="#top" aria-label="Los Toros, home">
-        <img src="assets/logo-mark.svg" alt="">
-        <span class="nav__lockup"><span class="nav__wordmark">Los Toros</span><span class="nav__sub">Barbershop</span></span>
+      <a class="nav__brand" href="#top">
+        <img class="nav__logo" src="assets/logo-360.webp" srcset="assets/logo-360.webp 360w, assets/logo-800.webp 800w" sizes="132px" width="360" height="363" alt="Los Toros Barber Shop, Bronx NY: home">
       </a>
 
       <ul class="nav__group nav__group--right">
@@ -138,7 +136,7 @@
     <div class="overlay__bg"></div>
     <div class="frame frame--overlay" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <div class="overlay__inner">
-      <div class="overlay__brand"><img class="overlay__crest" src="assets/logo-mark.svg" alt=""><span class="nav__wordmark">Los Toros</span><span class="nav__sub">Barbershop</span></div>
+      <div class="overlay__brand"><img class="overlay__logo" src="assets/logo-360.webp" srcset="assets/logo-360.webp 360w, assets/logo-800.webp 800w" sizes="200px" alt=""></div>
       <ul class="overlay__list">
         <li><a href="#services" data-close>Services</a></li>
         <li><a href="#gallery" data-close>Gallery</a></li>
@@ -270,6 +268,6 @@
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="js/main.js?v=10"></script>
+  <script src="js/main.js?v=13"></script>
 </body>
 </html>

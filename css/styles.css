@@ -66,7 +66,7 @@ body.is-locked { overflow: hidden; }
 /* ---------- worn-print text: speckles clipped into the letterforms ---------- */
 .section-title, .section-lede, .visit__lede, .fact__label, .fact__value, .fact__note,
 .hours__head h3, .hours__list .d, .hours__list .t, .hours__note,
-.nav__link span, .nav__cta span, .nav__wordmark, .nav__sub, .nav__toggle-label,
+.nav__link span, .nav__cta span, .nav__toggle-label,
 .hero__kicker, .hero__title, .hero__lede, .hero__bar a, .hero__bar [data-status],
 .map__directions, .soon__list, .overlay__list a, .overlay__foot {
   --tc: var(--ink);
@@ -125,9 +125,7 @@ body.is-locked { overflow: hidden; }
 .curtain__panel--l { left: 0; border-right: 3px solid var(--gold); }
 .curtain__panel--r { right: 0; border-left: 3px solid var(--gold); }
 .curtain__crest { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; transition: opacity .5s ease .7s, transform .6s var(--ease) .7s; }
-.curtain__crest img { width: 200px; margin-bottom: var(--s2); filter: drop-shadow(0 8px 18px rgba(0,0,0,.4)); animation: crestIn 1s var(--ease) both; }
-.curtain__name { font: 400 48px/1 var(--display); color: var(--gold-light); animation: crestIn 1s var(--ease) .12s both; }
-.curtain__sub { margin-top: 10px; font: 400 15px/1 var(--serif); letter-spacing: .42em; padding-left: .42em; color: var(--gold-light); animation: crestIn 1s var(--ease) .2s both; }
+.curtain__logo { width: min(360px, 74vw); filter: drop-shadow(0 12px 28px rgba(0,0,0,.45)); animation: crestIn 1s var(--ease) both; }
 @keyframes crestIn { from { opacity: 0; transform: translateY(16px) scale(.96); } }
 .is-loaded .curtain__panel--l { transform: translateX(-101%); }
 .is-loaded .curtain__panel--r { transform: translateX(101%); }
@@ -136,16 +134,15 @@ body.is-locked { overflow: hidden; }
 
 /* ---------- header / centered nav ---------- */
 .header { position: fixed; inset: 0 0 auto; z-index: 50; transition: background-color .45s, box-shadow .45s; }
-.header .nav__link span, .header .nav__cta span, .header .nav__wordmark, .header .nav__sub, .header .nav__toggle-label { --tc: var(--cream); --speck: var(--specks-dark); }
+.header .nav__link span, .header .nav__cta span, .header .nav__toggle-label { --tc: var(--cream); --speck: var(--specks-dark); }
 .header::after {   /* gold double rule, shown once scrolled */
   content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
   border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); opacity: 0; transition: opacity .45s;
 }
 .header.is-scrolled { background: var(--paper) var(--paper-img) 0 0 / 1024px; box-shadow: 0 12px 30px -22px rgba(43,24,16,.55); }
 .header.is-scrolled::after { opacity: 1; }
-.header.is-scrolled .nav__link span, .header.is-scrolled .nav__cta span, .header.is-scrolled .nav__wordmark,
+.header.is-scrolled .nav__link span, .header.is-scrolled .nav__cta span,
 .header.is-scrolled .nav__toggle-label { --tc: var(--ink); --speck: var(--specks-light); }
-.header.is-scrolled .nav__sub { --tc: var(--red); --speck: var(--specks-light); }
 .header.is-scrolled .nav__toggle { color: var(--ink); }
 
 .nav {
@@ -159,15 +156,10 @@ body.is-locked { overflow: hidden; }
 .nav__group--left { justify-content: flex-end; }
 .nav__group--right { justify-content: flex-start; }
 
-/* centre lockup: crest, wordmark, small "Barbershop" */
-.nav__brand { display: flex; flex-direction: column; align-items: center; transition: opacity .3s; }
-.nav__brand img { width: 62px; height: auto; filter: drop-shadow(0 3px 8px rgba(0,0,0,.28)); transition: width .45s var(--ease), filter .45s; }
-.is-scrolled .nav__brand img { width: 42px; filter: none; }
-.nav__lockup { display: flex; flex-direction: column; align-items: center; margin-top: 4px; }
-.nav__wordmark { font: 400 28px/1 var(--display); transition: font-size .45s var(--ease); }
-.nav__sub { margin-top: 5px; font: 400 11px/1 var(--serif); letter-spacing: .42em; padding-left: .42em; }
-.is-scrolled .nav__wordmark { font-size: 23px; }
-.is-scrolled .nav__sub { margin-top: 3px; font-size: 10px; }
+/* centre: the Los Toros badge */
+.nav__brand { display: block; transition: opacity .3s; }
+.nav__logo { width: 132px; height: auto; filter: drop-shadow(0 6px 16px rgba(0,0,0,.4)); transition: width .45s var(--ease), filter .45s; }
+.is-scrolled .nav__logo { width: 80px; filter: drop-shadow(0 2px 4px rgba(43,24,16,.18)); }
 
 /* link overlay: an oxblood panel rises behind the text, a gold rule draws out from the centre */
 .nav__link {
@@ -218,8 +210,7 @@ body.is-locked { overflow: hidden; }
   gap: var(--s4); padding: 100px var(--s3) var(--s5); text-align: center; color: var(--cream);
 }
 .overlay__brand { display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(-14px); transition: .6s var(--ease); }
-.overlay__crest { width: 96px; margin-bottom: 6px; filter: drop-shadow(0 6px 14px rgba(0,0,0,.35)); }
-.overlay__brand .nav__wordmark, .overlay__brand .nav__sub { --tc: var(--gold-light); --speck: var(--specks-dark); }
+.overlay__logo { width: min(190px, 46vw); filter: drop-shadow(0 8px 18px rgba(0,0,0,.4)); }
 .overlay__list { display: grid; gap: 4px; }
 .overlay__list a {
   --tc: var(--cream);
@@ -273,7 +264,7 @@ body.is-locked .header .nav__toggle-label { --tc: var(--cream); --speck: var(--s
 .frame--hero i:nth-child(3) { bottom: -12px; left: -12px; }
 .frame--hero i:nth-child(4) { bottom: -12px; right: -12px; }
 
-.hero__content { align-self: center; justify-self: center; width: min(900px, 100% - 2 * var(--gutter)); padding-top: 170px; padding-bottom: var(--s5); }
+.hero__content { align-self: center; justify-self: center; width: min(900px, 100% - 2 * var(--gutter)); padding-top: 210px; padding-bottom: var(--s5); }
 .hero__fleuron { width: 240px; margin: 0 auto var(--s3); filter: brightness(1.25); }
 .hero__kicker { --tc: var(--gold-light); font: italic 400 var(--fs2)/1.3 var(--serif-i); }
 .hero__title { --tc: var(--cream); margin-top: var(--s2); font: 400 clamp(48px, 8vw, 112px)/.98 var(--serif); filter: url(#ink) drop-shadow(0 2px 18px rgba(0,0,0,.35)); }
@@ -379,9 +370,9 @@ a.fact__value:hover { --tc: var(--red); }
 .leaflet-control-attribution a { color: #ccc !important; }
 .leaflet-bar a { background: #1b1b1b; color: var(--gold-light); border-color: #333; }
 .leaflet-bar a:hover { background: var(--red); color: #fff; }
-.lt-pin__body { width: 58px; height: 58px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--red); border: 2px solid var(--gold-light); box-shadow: 0 8px 20px rgba(0,0,0,.6); display: grid; place-items: center; }
-.lt-pin__body img { width: 46px; transform: rotate(45deg); }
-.lt-pin__pulse { position: absolute; left: 50%; top: 66px; width: 18px; height: 6px; margin-left: -9px; border-radius: 50%; background: rgba(227,198,128,.6); animation: pulse 2s ease-out infinite; }
+.lt-pin__body { width: 62px; height: 62px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: #F5EEE0; border: 3px solid var(--red); outline: 1.5px solid var(--gold-light); outline-offset: -7px; box-shadow: 0 8px 20px rgba(0,0,0,.6); display: grid; place-items: center; }
+.leaflet-container .leaflet-marker-pane .lt-pin__body img { width: 46px !important; height: 46px !important; transform: rotate(45deg); border-radius: 50%; }
+.lt-pin__pulse { position: absolute; left: 50%; top: 70px; width: 18px; height: 6px; margin-left: -9px; border-radius: 50%; background: rgba(227,198,128,.6); animation: pulse 2s ease-out infinite; }
 @keyframes pulse { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
 .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #17110D; color: #eee; border: 1px solid var(--gold); border-radius: 0; }
 .leaflet-popup-content { margin: 14px 18px; font-size: 13px; line-height: 1.5; }
@@ -399,8 +390,8 @@ a.fact__value:hover { --tc: var(--red); }
 /* very wide screens: let the type breathe a little more */
 @media (min-width: 1680px) {
   :root { --max: 1480px; --fs0: 18px; }
-  .nav__brand img { width: 70px; }
-  .nav__wordmark { font-size: 32px; }
+  .nav__logo { width: 150px; }
+  .is-scrolled .nav__logo { width: 86px; }
 }
 
 /* laptop / tablet landscape: map drops under facts + hours */
@@ -429,12 +420,9 @@ a.fact__value:hover { --tc: var(--red); }
 @media (max-width: 640px) {
   .nav { padding-block: 12px; }
   .is-scrolled .nav { padding-block: 8px; }
-  .nav__brand img { width: 46px; }
-  .is-scrolled .nav__brand img { width: 34px; }
-  .nav__wordmark { font-size: 23px; }
-  .is-scrolled .nav__wordmark { font-size: 20px; }
-  .nav__sub { font-size: 9.5px; }
-  .hero__content { padding-top: 140px; }
+  .nav__logo { width: 96px; }
+  .is-scrolled .nav__logo { width: 62px; }
+  .hero__content { padding-top: 160px; }
   .hero__fleuron { width: 190px; }
   .hero__kicker { font-size: var(--fs1); }
   .hero__ctas .btn { width: 100%; }

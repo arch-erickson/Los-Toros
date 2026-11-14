@@ -86,8 +86,8 @@
     }).addTo(map);
     const icon = L.divIcon({
       className: 'lt-pin',
-      html: '<div class="lt-pin__body"><img src="assets/logo-mark.svg" alt=""></div><span class="lt-pin__pulse"></span>',
-      iconSize: [54, 70], iconAnchor: [27, 66], popupAnchor: [0, -60]
+      html: '<div class="lt-pin__body"><img src="assets/logo-mark-256.png" alt=""></div><span class="lt-pin__pulse"></span>',
+      iconSize: [62, 80], iconAnchor: [31, 76], popupAnchor: [0, -70]
     });
     L.marker(SHOP, { icon, title: 'Los Toros Barber Shop' }).addTo(map)
       .bindPopup('<strong>LOS TOROS</strong><br>982 Westchester Ave<br>Bronx, NY 10459');
