@@ -151,7 +151,7 @@
       const pin = document.createElement('img');
       pin.src = 'assets/map-marker.png'; pin.alt = 'Los Toros Barber Shop'; pin.className = 'lt-marker';
       new maplibregl.Marker({ element: pin, anchor: 'bottom' }).setLngLat(SHOP)
-        .setPopup(new maplibregl.Popup({ offset: 78, closeButton: false })
+        .setPopup(new maplibregl.Popup({ offset: 116, closeButton: false })
           .setHTML('<strong>Los Toros</strong><br>982 Westchester Ave<br>Bronx, NY 10459'))
         .addTo(map);
       map.on('resize', () => map.setCenter(SHOP));
