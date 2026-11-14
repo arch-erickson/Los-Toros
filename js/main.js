@@ -1,6 +1,7 @@
 (() => {
   const root = document.documentElement;
   const body = document.body;
+  const T = (k) => (window.LT_I18N ? window.LT_I18N.t(k) : k);
 
   /* ---------- entrance curtain ---------- */
   const lift = () => {
@@ -24,12 +25,15 @@
     overlay.classList.toggle('is-open', open);
     overlay.setAttribute('aria-hidden', String(!open));
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.querySelector('.nav__toggle-label').textContent = open ? 'Close' : 'Menu';
+    toggle.querySelector('.nav__toggle-label').textContent = T(open ? 'nav.close' : 'nav.menu');
     body.classList.toggle('is-locked', open);
   };
   toggle.addEventListener('click', () => setMenu(!overlay.classList.contains('is-open')));
   overlay.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('langchange', () => {
+    toggle.querySelector('.nav__toggle-label').textContent = T(overlay.classList.contains('is-open') ? 'nav.close' : 'nav.menu');
+  });
 
   /* ---------- active nav link ---------- */
   const links = [...document.querySelectorAll('.nav__link')];
@@ -67,13 +71,19 @@
 
   const badge = document.querySelector('[data-open-badge]');
   const status = document.querySelector('[data-status]');
-  let text;
-  if (isOpen) text = `Open now · until ${fmt(close)}`;
-  else if (hr < open) text = `Closed · opens ${fmt(open)} today`;
-  else text = `Closed · opens ${fmt(HOURS[(day + 1) % 7][0])} tomorrow`;
-  badge.textContent = isOpen ? 'Open now' : 'Closed';
-  badge.classList.add(isOpen ? 'is-open' : 'is-closed');
-  status.textContent = text;
+  const renderHours = () => {
+    let text;
+    if (isOpen) text = T('status.open')(fmt(close));
+    else if (hr < open) text = T('status.opensToday')(fmt(open));
+    else text = T('status.opensTomorrow')(fmt(HOURS[(day + 1) % 7][0]));
+    badge.textContent = T(isOpen ? 'status.badgeOpen' : 'status.badgeClosed');
+    badge.classList.toggle('is-open', isOpen);
+    badge.classList.toggle('is-closed', !isOpen);
+    status.textContent = text;
+    if (todayRow) todayRow.querySelector('.d').dataset.today = T('hours.today');
+  };
+  renderHours();
+  document.addEventListener('langchange', renderHours);
 
   /* ---------- map: custom vintage style on OpenFreeMap vector tiles ---------- */
   const SHOP = [-73.89461, 40.82318];           // [lng, lat]

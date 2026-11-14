@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Los Toros Barber Shop · The Bronx</title>
-  <meta name="description" content="Los Toros Barber Shop: fades, lineups, beard work and hot-towel shaves at 982 Westchester Ave in the Bronx.">
+  <title>Los Toros Barber Shop · El Bronx</title>
+  <meta name="description" content="Los Toros Barber Shop: fades, cerquillos, barbas y afeitado con toalla caliente en el 982 de Westchester Ave, en el Bronx.">
   <link rel="icon" href="assets/favicon-64.png?v=logo3" type="image/png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=logo3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=24">
+  <link rel="stylesheet" href="css/styles.css?v=27">
 </head>
 <body>
 
@@ -28,26 +28,31 @@
 
   <!-- Header: centered, crest in the middle; transparent over the hero, paper once scrolled -->
   <header class="header" data-header>
+    <div class="lang" role="group" aria-label="Idioma / Language" data-i18n-attr="aria-label:lang.label">
+      <button type="button" class="lang__btn" data-lang="es" aria-pressed="true" lang="es">ES</button>
+      <span class="lang__sep" aria-hidden="true"></span>
+      <button type="button" class="lang__btn" data-lang="en" aria-pressed="false" lang="en">EN</button>
+    </div>
     <nav class="nav" aria-label="Main">
       <ul class="nav__group nav__group--left">
-        <li><a class="nav__link" href="#services"><span>Services</span></a></li>
-        <li><a class="nav__link" href="#gallery"><span>Gallery</span></a></li>
-        <li><a class="nav__link" href="#reviews"><span>Reviews</span></a></li>
+        <li><a class="nav__link" href="#services"><span data-i18n="nav.services">Servicios</span></a></li>
+        <li><a class="nav__link" href="#gallery"><span data-i18n="nav.gallery">Galería</span></a></li>
+        <li><a class="nav__link" href="#reviews"><span data-i18n="nav.reviews">Reseñas</span></a></li>
       </ul>
 
       <a class="nav__brand" href="#top">
-        <img class="nav__logo" src="assets/logo-360.webp?v=logo3" srcset="assets/logo-360.webp?v=logo3 360w, assets/logo-800.webp?v=logo3 800w" sizes="132px" width="360" height="327" alt="Los Toros Barber Shop, Bronx NY: home">
+        <img class="nav__logo" src="assets/logo-360.webp?v=logo3" srcset="assets/logo-360.webp?v=logo3 360w, assets/logo-800.webp?v=logo3 800w" sizes="132px" width="360" height="327" alt="Los Toros Barber Shop, Bronx NY: inicio" data-i18n-attr="alt:nav.home">
       </a>
 
       <ul class="nav__group nav__group--right">
-        <li><a class="nav__link" href="#booking"><span>Booking Guide</span></a></li>
-        <li><a class="nav__link" href="#visit"><span>Visit</span></a></li>
-        <li><a class="nav__cta" href="#booking"><span>Book a Chair</span></a></li>
+        <li><a class="nav__link" href="#booking"><span data-i18n="nav.booking">Citas</span></a></li>
+        <li><a class="nav__link" href="#visit"><span data-i18n="nav.visit">Visítanos</span></a></li>
+        <li><a class="nav__cta" href="#booking"><span data-i18n="nav.cta">Reserva tu silla</span></a></li>
       </ul>
 
       <button class="nav__toggle" aria-expanded="false" aria-controls="overlay-menu" data-menu-toggle>
         <span class="nav__toggle-bars" aria-hidden="true"><i></i><i></i></span>
-        <span class="nav__toggle-label">Menu</span>
+        <span class="nav__toggle-label">Menú</span>
       </button>
     </nav>
   </header>
@@ -59,13 +64,13 @@
     <div class="overlay__inner">
       <div class="overlay__brand"><img class="overlay__logo" src="assets/logo-360.webp?v=logo3" srcset="assets/logo-360.webp?v=logo3 360w, assets/logo-800.webp?v=logo3 800w" sizes="200px" alt=""></div>
       <ul class="overlay__list">
-        <li><a href="#services" data-close>Services</a></li>
-        <li><a href="#gallery" data-close>Gallery</a></li>
-        <li><a href="#reviews" data-close>Reviews</a></li>
-        <li><a href="#booking" data-close>Booking Guide</a></li>
-        <li><a href="#visit" data-close>Visit</a></li>
+        <li><a href="#services" data-close data-i18n="nav.services">Servicios</a></li>
+        <li><a href="#gallery" data-close data-i18n="nav.gallery">Galería</a></li>
+        <li><a href="#reviews" data-close data-i18n="nav.reviews">Reseñas</a></li>
+        <li><a href="#booking" data-close data-i18n="nav.booking">Citas</a></li>
+        <li><a href="#visit" data-close data-i18n="nav.visit">Visítanos</a></li>
       </ul>
-      <a class="btn btn--gold" href="#booking" data-close>Book a Chair</a>
+      <a class="btn btn--gold" href="#booking" data-close data-i18n="nav.cta">Reserva tu silla</a>
       <p class="overlay__foot">982 Westchester Ave, Bronx<br><a href="tel:+13472843200">(347) 284-3200</a></p>
     </div>
   </div>
@@ -80,18 +85,18 @@
 
       <div class="hero__content">
         <img class="hero__fleuron" src="assets/fleuron.svg" alt="">
-        <p class="hero__kicker"><svg viewBox="0 0 640 112" aria-label="A barbería on Westchester Avenue"><path id="kicker-arc" d="M40 104 Q320 -18 600 104" fill="none"/><text><textPath href="#kicker-arc" startOffset="50%" text-anchor="middle">A barbería · Westchester Avenue</textPath></text></svg></p>
-        <h1 class="hero__title"><span class="sr-only">Los Toros Barber Shop. </span>Every client<br>leaves crowned.</h1>
-        <p class="hero__lede">Skin fades, clean lineups, beard sculpting and hot-towel shaves, done by hand in the South Bronx.</p>
+        <p class="hero__kicker"><svg viewBox="0 0 640 112" role="img" aria-label="Barbería en la Avenida Westchester" data-i18n-attr="aria-label:hero.kickerLabel"><path id="kicker-arc" d="M40 104 Q320 -18 600 104" fill="none"/><text><textPath href="#kicker-arc" startOffset="50%" text-anchor="middle" data-i18n="hero.kicker">Barbería · Avenida Westchester</textPath></text></svg></p>
+        <h1 class="hero__title"><span class="sr-only">Los Toros Barber Shop. </span><span data-i18n-html="hero.title">Todo cliente<br>sale coronado.</span></h1>
+        <p class="hero__lede" data-i18n="hero.lede">Fades, cerquillos limpios, barbas perfiladas y afeitado con toalla caliente, todo a mano en el Sur del Bronx.</p>
         <div class="hero__ctas">
-          <a class="btn btn--red" href="#booking">Book a Chair</a>
-          <a class="btn btn--ghost" href="#services">See Services &amp; Prices</a>
+          <a class="btn btn--red" href="#booking" data-i18n="hero.book">Reserva tu silla</a>
+          <a class="btn btn--ghost" href="#services" data-i18n="hero.services">Servicios y precios</a>
         </div>
       </div>
 
       <ul class="hero__bar">
         <li><span class="bar-ico"><img class="ico" src="assets/icons/pin.webp?v=logo3" alt="" width="96" height="96"></span><a href="#visit">982 Westchester Ave, Bronx</a></li>
-        <li><span class="bar-ico"><img class="ico" src="assets/icons/watch.webp?v=logo3" alt="" width="96" height="96"></span><span data-status>Hours this week</span></li>
+        <li><span class="bar-ico"><img class="ico" src="assets/icons/watch.webp?v=logo3" alt="" width="96" height="96"></span><span data-status>Horario de la semana</span></li>
         <li><span class="bar-ico"><img class="ico" src="assets/icons/phone.webp?v=logo3" alt="" width="96" height="96"></span><a href="tel:+13472843200">(347) 284-3200</a></li>
       </ul>
     </section>
@@ -99,19 +104,19 @@
     <!-- THE SHOP: arch-framed photographs -->
     <section class="shop" id="gallery">
       <div class="section-head">
-        <h2 class="section-title">The House of Los Toros</h2>
+        <h2 class="section-title" data-i18n="shop.title">La Casa de Los Toros</h2>
         <img class="section-fleuron" src="assets/fleuron.svg" alt="">
-        <p class="section-lede">Leather chairs, sharp steel and a crew that knows your name. Pull up, sit down, and let the barber take it from here.</p>
+        <p class="section-lede" data-i18n="shop.lede">Sillas de cuero, navaja bien afilada y un equipo que te conoce por tu nombre. Siéntate y deja que el barbero haga lo suyo.</p>
       </div>
       <div class="arches">
         <figure class="arch">
-          <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=900&q=70&auto=format&fit=crop" alt="Barber finishing a skin fade (placeholder photo)" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=900&q=70&auto=format&fit=crop" alt="Barbero terminando un fade (foto de muestra)" data-i18n-attr="alt:shop.alt1" loading="lazy">
         </figure>
         <figure class="arch arch--tall">
-          <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=70&auto=format&fit=crop" alt="Straight-razor shave (placeholder photo)" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=70&auto=format&fit=crop" alt="Afeitado con navaja (foto de muestra)" data-i18n-attr="alt:shop.alt2" loading="lazy">
         </figure>
         <figure class="arch">
-          <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?w=900&q=70&auto=format&fit=crop" alt="Barber clipping a fade on the side of a client's head (placeholder photo)" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?w=900&q=70&auto=format&fit=crop" alt="Barbero haciendo un fade al costado de la cabeza de un cliente (foto de muestra)" data-i18n-attr="alt:shop.alt3" loading="lazy">
         </figure>
       </div>
     </section>
@@ -120,32 +125,32 @@
     <section class="visit" id="visit">
       <div class="visit__grid">
         <div class="visit__head">
-          <h2 class="section-title">Visit the Shop</h2>
+          <h2 class="section-title" data-i18n="visit.title">Visítanos</h2>
           <img class="section-fleuron" src="assets/fleuron.svg" alt="">
-          <p class="visit__lede">Walk-ins are always welcome. Book ahead and your chair is waiting when you arrive.</p>
+          <p class="visit__lede" data-i18n="visit.lede">Siempre atendemos sin cita. Reserva con tiempo y tu silla te estará esperando.</p>
         </div>
 
           <ul class="facts">
             <li class="fact">
               <span class="seal"><img class="ico" src="assets/icons/pin.webp?v=logo3" alt="" width="96" height="96"></span>
               <div class="fact__body">
-                <h3 class="fact__label">Address</h3>
+                <h3 class="fact__label" data-i18n="visit.address">Dirección</h3>
                 <a class="fact__value" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener">982 Westchester Ave<br>Bronx, NY 10459</a>
               </div>
             </li>
             <li class="fact">
               <span class="seal"><img class="ico" src="assets/icons/phone.webp?v=logo3" alt="" width="96" height="96"></span>
               <div class="fact__body">
-                <h3 class="fact__label">Call or text</h3>
+                <h3 class="fact__label" data-i18n="visit.call">Llama o escribe</h3>
                 <a class="fact__value" href="tel:+13472843200">(347) 284-3200</a>
               </div>
             </li>
             <li class="fact">
               <span class="seal"><img class="ico" src="assets/icons/token.webp?v=logo3" alt="" width="96" height="96"></span>
               <div class="fact__body">
-                <h3 class="fact__label">Getting here</h3>
-                <p class="fact__value">2 and 5 trains to Simpson St</p>
-                <p class="fact__note">Street parking on Westchester Ave</p>
+                <h3 class="fact__label" data-i18n="visit.getting">Cómo llegar</h3>
+                <p class="fact__value" data-i18n="visit.trains">Trenes 2 y 5 hasta Simpson St</p>
+                <p class="fact__note" data-i18n="visit.parking">Estacionamiento en la calle por Westchester Ave</p>
               </div>
             </li>
           </ul>
@@ -155,27 +160,27 @@
           <div class="frame frame--card" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="hours__head">
             <img class="ico ico--lg" src="assets/icons/watch.webp?v=logo3" alt="" width="96" height="96">
-            <h3 id="hours-title">Hours</h3>
+            <h3 id="hours-title" data-i18n="hours.title">Horario</h3>
             <span class="hours__badge" data-open-badge>—</span>
           </div>
           <ol class="hours__list" data-hours>
-            <li data-day="1"><span class="d">Monday</span><span class="t">9 AM <i>to</i> 8 PM</span></li>
-            <li data-day="2"><span class="d">Tuesday</span><span class="t">9 AM <i>to</i> 8 PM</span></li>
-            <li data-day="3"><span class="d">Wednesday</span><span class="t">9 AM <i>to</i> 8 PM</span></li>
-            <li data-day="4"><span class="d">Thursday</span><span class="t">9 AM <i>to</i> 8 PM</span></li>
-            <li data-day="5"><span class="d">Friday</span><span class="t">9 AM <i>to</i> 9 PM</span></li>
-            <li data-day="6"><span class="d">Saturday</span><span class="t">8 AM <i>to</i> 9 PM</span></li>
-            <li data-day="0"><span class="d">Sunday</span><span class="t">10 AM <i>to</i> 5 PM</span></li>
+            <li data-day="1"><span class="d" data-i18n="day.1">Lunes</span><span class="t">9 AM <i data-i18n="hours.to">a</i> 8 PM</span></li>
+            <li data-day="2"><span class="d" data-i18n="day.2">Martes</span><span class="t">9 AM <i data-i18n="hours.to">a</i> 8 PM</span></li>
+            <li data-day="3"><span class="d" data-i18n="day.3">Miércoles</span><span class="t">9 AM <i data-i18n="hours.to">a</i> 8 PM</span></li>
+            <li data-day="4"><span class="d" data-i18n="day.4">Jueves</span><span class="t">9 AM <i data-i18n="hours.to">a</i> 8 PM</span></li>
+            <li data-day="5"><span class="d" data-i18n="day.5">Viernes</span><span class="t">9 AM <i data-i18n="hours.to">a</i> 9 PM</span></li>
+            <li data-day="6"><span class="d" data-i18n="day.6">Sábado</span><span class="t">8 AM <i data-i18n="hours.to">a</i> 9 PM</span></li>
+            <li data-day="0"><span class="d" data-i18n="day.0">Domingo</span><span class="t">10 AM <i data-i18n="hours.to">a</i> 5 PM</span></li>
           </ol>
-          <p class="hours__note">Appointments are seen first; walk-ins join the queue.</p>
+          <p class="hours__note" data-i18n="hours.note">Las citas tienen prioridad; sin cita, se espera turno.</p>
         </div>
 
         <div class="map">
           <div class="map__frame">
             <div class="frame frame--map" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-            <div id="map" class="map__canvas" role="region" aria-label="Map showing Los Toros at 982 Westchester Ave"></div>
+            <div id="map" class="map__canvas" role="region" aria-label="Mapa de Los Toros en el 982 de Westchester Ave" data-i18n-attr="aria-label:map.label"></div>
           </div>
-          <a class="map__directions" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener">Get directions in Google Maps</a>
+          <a class="map__directions" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener" data-i18n="map.directions">Cómo llegar con Google Maps</a>
         </div>
       </div>
     </section>
@@ -183,12 +188,13 @@
     <!-- Sections still to come in the full build -->
     <section class="soon" id="services">
       <img class="section-fleuron" src="assets/fleuron.svg" alt="">
-      <p class="soon__list">Still to come in the full build: services and prices, reviews, booking guide, footer.</p>
+      <p class="soon__list" data-i18n="soon.text">Próximamente en la versión completa: servicios y precios, reseñas, guía de reservas y pie de página.</p>
       <span id="reviews"></span><span id="booking"></span>
     </section>
   </main>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
-  <script src="js/main.js?v=23"></script>
+  <script src="js/i18n.js?v=2"></script>
+  <script src="js/main.js?v=24"></script>
 </body>
 </html>
