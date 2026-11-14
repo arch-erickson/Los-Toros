@@ -9,92 +9,13 @@
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=UnifrakturMaguntia&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
-  <link rel="stylesheet" href="css/styles.css?v=14">
+  <link href="https://fonts.googleapis.com/css2?family=Elsie:wght@400;900&family=Elsie+Swash+Caps:wght@900&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css">
+  <link rel="stylesheet" href="css/styles.css?v=20">
 </head>
 <body>
 
-  <!-- Letterpress ink: roughens glyph edges and knocks out tiny specks, like worn type on old paper -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <filter id="ink" x="-4%" y="-10%" width="108%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4" result="grain"/>
-      <feDisplacementMap in="SourceGraphic" in2="grain" scale="1.3" xChannelSelector="R" yChannelSelector="G" result="rough"/>
-      <feTurbulence type="fractalNoise" baseFrequency=".6" numOctaves="2" seed="11" result="speck"/>
-      <feColorMatrix in="speck" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 1.95" result="mask"/>
-      <feComposite in="rough" in2="mask" operator="in"/>
-    </filter>
-  </svg>
-  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <!-- Engraved-style icons. Ink = currentColor; accents use --accent. 48x48 grid. -->
-  <defs>
-    <pattern id="ico-hatch" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(40)">
-      <rect width=".9" height="3" fill="currentColor"/>
-    </pattern>
-  </defs>
-
-  <!-- Vintage map marker with a crown -->
-  <symbol id="i-pin" viewBox="0 0 48 48">
-    <path d="M24 45C24 45 9 29 9 18A15 15 0 0 1 39 18C39 29 24 45 24 45Z" fill="var(--accent,#A3171F)" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    <path d="M30 8C35 11 37 16 36 22C34 30 27 38 24 41C28 34 32 27 32 19C32 14 31 11 30 8Z" fill="url(#ico-hatch)" opacity=".6"/>
-    <circle cx="24" cy="18" r="8" fill="#FBF6EA" stroke="currentColor" stroke-width="1.5"/>
-    <path d="M19.5 21L18.5 15L21.5 17.5L24 13.5L26.5 17.5L29.5 15L28.5 21Z" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-  </symbol>
-
-  <!-- Candlestick telephone -->
-  <symbol id="i-phone" viewBox="0 0 48 48">
-    <!-- base -->
-    <path d="M12 44C12 40 16 38 21 38H27C32 38 36 40 36 44Z" fill="var(--accent,#A3171F)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-    <!-- stem -->
-    <path d="M22 38V16H26V38" fill="#FBF6EA" stroke="currentColor" stroke-width="1.6"/>
-    <path d="M24.6 18V37" stroke="currentColor" stroke-width=".8" opacity=".6"/>
-    <!-- mouthpiece -->
-    <path d="M18 8C18 6 20 5 24 5C28 5 30 6 30 8L27 15H21Z" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-    <ellipse cx="24" cy="7" rx="6" ry="1.6" fill="currentColor"/>
-    <!-- hook + receiver -->
-    <path d="M26 22H33" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-    <path d="M33 19V32" stroke="currentColor" stroke-width="2"/>
-    <path d="M31 16H35C36 16 37 17 37 18V19H31V18C31 17 31 16 31 16Z" fill="var(--accent,#A3171F)" stroke="currentColor" stroke-width="1.4"/>
-    <!-- cord -->
-    <path d="M33 32C33 36 38 36 38 40C38 43 34 43 33 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-  </symbol>
-
-  <!-- NYC subway token -->
-  <symbol id="i-token" viewBox="0 0 48 48">
-    <circle cx="24" cy="24" r="19" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1.8"/>
-    <circle cx="24" cy="24" r="15" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="1.5 2.2"/>
-    <!-- Y cut-out -->
-    <path d="M17 12L22 12L24 18L26 12L31 12L26.5 23V34H21.5V23Z" fill="#FBF6EA" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-    <path d="M10 30C13 38 21 42 29 41" fill="none" stroke="currentColor" stroke-width=".9" opacity=".5"/>
-  </symbol>
-
-  <!-- Straight razor (for dividers / future sections) -->
-  <symbol id="i-razor" viewBox="0 0 48 48">
-    <path d="M6 30L30 10C33 8 37 8 39 11L41 13L17 34Z" fill="#FBF6EA" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M17 34L22 38C20 42 15 44 11 42C8 41 7 38 9 35Z" fill="var(--accent,#A3171F)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-    <path d="M12 28L33 11" stroke="currentColor" stroke-width=".8" opacity=".55"/>
-  </symbol>
-
-  <!-- Barber pole -->
-  <symbol id="i-pole" viewBox="0 0 48 48">
-    <rect x="18" y="4" width="12" height="4" rx="1" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1.4"/>
-    <circle cx="24" cy="3" r="1.8" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1"/>
-    <rect x="19.5" y="8" width="9" height="32" fill="#FBF6EA" stroke="currentColor" stroke-width="1.4"/>
-    <path d="M19.5 12L28.5 8V13L19.5 17ZM19.5 21L28.5 17V22L19.5 26ZM19.5 30L28.5 26V31L19.5 35ZM19.5 39L28.5 35V40H24Z" fill="var(--accent,#A3171F)"/>
-    <rect x="18" y="40" width="12" height="4" rx="1" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1.4"/>
-  </symbol>
-
-  <!-- Pocket watch (hours) -->
-  <symbol id="i-watch" viewBox="0 0 48 48">
-    <circle cx="24" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.4"/>
-    <rect x="21.5" y="7" width="5" height="4" rx="1" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1.2"/>
-    <circle cx="24" cy="28" r="17" fill="var(--gold,#B8913A)" stroke="currentColor" stroke-width="1.8"/>
-    <circle cx="24" cy="28" r="13" fill="#FBF6EA" stroke="currentColor" stroke-width="1.2"/>
-    <path d="M24 17V19M24 37V39M13 28H15M33 28H35" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-    <path d="M24 28V21M24 28L29 31" stroke="var(--accent,#A3171F)" stroke-width="1.8" stroke-linecap="round"/>
-    <circle cx="24" cy="28" r="1.4" fill="currentColor"/>
-  </symbol>
-</svg>
+  
 
   <!-- Entrance curtain: the page's one orchestrated moment -->
   <div class="curtain" aria-hidden="true">
@@ -115,7 +36,7 @@
       </ul>
 
       <a class="nav__brand" href="#top">
-        <img class="nav__logo" src="assets/logo-360.webp" srcset="assets/logo-360.webp 360w, assets/logo-800.webp 800w" sizes="132px" width="360" height="363" alt="Los Toros Barber Shop, Bronx NY: home">
+        <img class="nav__logo" src="assets/logo-360.webp" srcset="assets/logo-360.webp 360w, assets/logo-800.webp 800w" sizes="132px" width="360" height="327" alt="Los Toros Barber Shop, Bronx NY: home">
       </a>
 
       <ul class="nav__group nav__group--right">
@@ -160,7 +81,7 @@
       <div class="hero__content">
         <img class="hero__fleuron" src="assets/fleuron.svg" alt="">
         <p class="hero__kicker">A barbería on Westchester Avenue</p>
-        <h1 class="hero__title"><span class="sr-only">Los Toros Barber Shop. </span>Every client<br>leaves crowned.</h1>
+        <h1 class="hero__title"><span class="sr-only">Los Toros Barber Shop. </span><span class="gilt" data-text="Every client"><span class="gilt__fill">Every client</span></span><br><span class="gilt" data-text="leaves crowned."><span class="gilt__fill">leaves crowned.</span></span></h1>
         <p class="hero__lede">Skin fades, clean lineups, beard sculpting and hot-towel shaves, done by hand in the South Bronx.</p>
         <div class="hero__ctas">
           <a class="btn btn--red" href="#booking">Book a Chair</a>
@@ -169,9 +90,9 @@
       </div>
 
       <ul class="hero__bar">
-        <li><span class="disc"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></span><a href="#visit">982 Westchester Ave, Bronx</a></li>
-        <li><span class="disc"><svg class="ico" aria-hidden="true"><use href="#i-watch"/></svg></span><span data-status>Hours this week</span></li>
-        <li><span class="disc"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg></span><a href="tel:+13472843200">(347) 284-3200</a></li>
+        <li><span class="bar-ico"><img class="ico" src="assets/icons/pin.webp" alt="" width="96" height="96"></span><a href="#visit">982 Westchester Ave, Bronx</a></li>
+        <li><span class="bar-ico"><img class="ico" src="assets/icons/watch.webp" alt="" width="96" height="96"></span><span data-status>Hours this week</span></li>
+        <li><span class="bar-ico"><img class="ico" src="assets/icons/phone.webp" alt="" width="96" height="96"></span><a href="tel:+13472843200">(347) 284-3200</a></li>
       </ul>
     </section>
 
@@ -190,7 +111,7 @@
           <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=900&q=70&auto=format&fit=crop" alt="Straight-razor shave (placeholder photo)" loading="lazy">
         </figure>
         <figure class="arch">
-          <img src="https://images.unsplash.com/photo-1512690459411-b9245aed614b?w=900&q=70&auto=format&fit=crop" alt="Leather barber chair (placeholder photo)" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1593702275687-f8b402bf1fb5?w=900&q=70&auto=format&fit=crop" alt="Barber clipping a fade on the side of a client's head (placeholder photo)" loading="lazy">
         </figure>
       </div>
     </section>
@@ -206,21 +127,21 @@
 
           <ul class="facts">
             <li class="fact">
-              <span class="seal"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg></span>
+              <span class="seal"><img class="ico" src="assets/icons/pin.webp" alt="" width="96" height="96"></span>
               <div class="fact__body">
                 <h3 class="fact__label">Address</h3>
                 <a class="fact__value" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener">982 Westchester Ave<br>Bronx, NY 10459</a>
               </div>
             </li>
             <li class="fact">
-              <span class="seal"><svg class="ico" aria-hidden="true"><use href="#i-phone"/></svg></span>
+              <span class="seal"><img class="ico" src="assets/icons/phone.webp" alt="" width="96" height="96"></span>
               <div class="fact__body">
                 <h3 class="fact__label">Call or text</h3>
                 <a class="fact__value" href="tel:+13472843200">(347) 284-3200</a>
               </div>
             </li>
             <li class="fact">
-              <span class="seal"><svg class="ico" aria-hidden="true"><use href="#i-token"/></svg></span>
+              <span class="seal"><img class="ico" src="assets/icons/token.webp" alt="" width="96" height="96"></span>
               <div class="fact__body">
                 <h3 class="fact__label">Getting here</h3>
                 <p class="fact__value">2 and 5 trains to Simpson St</p>
@@ -233,7 +154,7 @@
         <div class="hours" aria-labelledby="hours-title">
           <div class="frame frame--card" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="hours__head">
-            <svg class="ico ico--lg" aria-hidden="true"><use href="#i-watch"/></svg>
+            <img class="ico ico--lg" src="assets/icons/watch.webp" alt="" width="96" height="96">
             <h3 id="hours-title">Hours</h3>
             <span class="hours__badge" data-open-badge>—</span>
           </div>
@@ -267,7 +188,7 @@
     </section>
   </main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-  <script src="js/main.js?v=14"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js"></script>
+  <script src="js/main.js?v=20"></script>
 </body>
 </html>
