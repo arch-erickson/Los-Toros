@@ -513,14 +513,13 @@ body.is-locked .header .nav__toggle-label { --tc: var(--cream); }
 
 /* facts: seal medallions, generous rhythm */
 .facts { display: grid; gap: var(--s5); }
-.fact { display: grid; grid-template-columns: 72px 1fr; column-gap: var(--s3); align-items: center; }
+.fact { display: grid; grid-template-columns: 88px 1fr; column-gap: var(--s3); align-items: center; }
 .seal {
-  position: relative; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 50%;
+  position: relative; width: 88px; height: 88px; display: grid; place-items: center; border-radius: 50%;
   background: radial-gradient(circle at 35% 30%, #FFFDF6 0%, #EFE3C6 100%);
   box-shadow: 0 0 0 1px var(--gold), 0 0 0 5px var(--paper-2), 0 0 0 6px var(--rule), 0 6px 14px -8px rgba(43,24,16,.5);
 }
-.seal::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1.5px dotted rgba(138,101,36,.7); }
-.seal .ico { width: 50px; height: 50px; position: relative; }
+.seal .ico { width: 74px; height: 74px; position: relative; }
 .fact__label { --tc: var(--gold-deep); font: 400 var(--fs0)/1.2 var(--serif-i); margin-bottom: 6px; }
 .fact__value { display: block; width: fit-content; font-weight: 500; font-size: var(--fs1); line-height: 1.38; }
 .fact__note { --tc: var(--ink-soft); margin-top: 4px; font-size: var(--fs-1); }
@@ -619,9 +618,9 @@ a.fact__value:hover { --tc: var(--red); }
   .arch:first-child { display: none; }
   .arch--tall { aspect-ratio: 3 / 3.7; }
   .facts { gap: var(--s4); }
-  .fact { grid-template-columns: 60px 1fr; column-gap: var(--s2); }
-  .seal { width: 60px; height: 60px; }
-  .seal .ico { width: 42px; height: 42px; }
+  .fact { grid-template-columns: 72px 1fr; column-gap: var(--s2); }
+  .seal { width: 72px; height: 72px; }
+  .seal .ico { width: 60px; height: 60px; }
   .hours__list li { padding: 12px 10px; }
   .frame i { width: 48px; height: 48px; }
 }
