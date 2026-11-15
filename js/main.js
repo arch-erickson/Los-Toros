@@ -3,6 +3,28 @@
   const body = document.body;
   const T = (k) => (window.LT_I18N ? window.LT_I18N.t(k) : k);
 
+  /* ---------- optional on-screen log: add ?debug to the URL (handy on phones) ---------- */
+  const DEBUG = /[?&]debug\b/.test(location.search);
+  const tStart = performance.now();
+  let dbgBox = null;
+  const dbg = (msg) => {
+    if (!DEBUG) return;
+    if (!dbgBox) {
+      dbgBox = document.createElement('pre');
+      dbgBox.style.cssText = 'position:fixed;left:6px;right:6px;bottom:6px;z-index:9999;max-height:45vh;overflow:auto;margin:0;padding:8px;' +
+        'background:rgba(0,0,0,.82);color:#9f9;font:11px/1.35 ui-monospace,Menlo,monospace;white-space:pre-wrap;border-radius:6px';
+      document.body.appendChild(dbgBox);
+    }
+    dbgBox.textContent += Math.round(performance.now() - tStart) + 'ms  ' + msg + '\n';
+  };
+  if (DEBUG) {
+    window.addEventListener('error', e => dbg('ERROR ' + e.message + ' @' + (e.filename || '').split('/').pop() + ':' + e.lineno));
+    window.addEventListener('unhandledrejection', e => dbg('REJECT ' + (e.reason && e.reason.message || e.reason)));
+    dbg(navigator.userAgent.replace(/^Mozilla\/5.0 /, ''));
+    dbg('viewport ' + innerWidth + 'x' + innerHeight + '  reduce-motion ' + matchMedia('(prefers-reduced-motion: reduce)').matches +
+      '  WAAPI ' + (typeof Element.prototype.animate));
+  }
+
   /* ---------- entrance: curtain opens, the crest flies up and slams into the header ---------- */
   const curtain = document.querySelector('.curtain');
   const fly = curtain && curtain.querySelector('.curtain__logo');
@@ -121,12 +143,14 @@
   const lift = async () => {
     if (lifted) return;
     lifted = true;
-    if (!curtain || !fly || !slot) { finishIntro(); return; }
+    dbg('lift: readyState ' + document.readyState);
+    if (!curtain || !fly || !slot || !enter) { dbg('missing element, skipping intro'); finishIntro(); return; }
     // never wait on a stalled timeline (background tab, throttled frames)
     await Promise.race([enter.finished.catch(() => {}), new Promise(r => setTimeout(r, 1100))]);
+    dbg('crest entrance ' + enter.playState);
     if (enter.playState !== 'finished') enter.cancel();
     body.classList.add('is-loaded');
-    setTimeout(() => { if (!body.classList.contains('is-done')) { fly.style.transform = ''; finishIntro(); } }, 6000);
+    setTimeout(() => { if (!body.classList.contains('is-done')) { dbg('safety timeout ended the intro'); fly.style.transform = ''; finishIntro(); } }, 6000);
 
     // curtains: a small tug toward the centre, then they swing open
     const open = (el, dir) => el.animate([
@@ -138,14 +162,23 @@
     open(curtain.querySelector('.curtain__panel--r'), 1);
 
     const r0 = fly.getBoundingClientRect();
+    dbg('crest ' + [r0.left, r0.top, r0.width].map(Math.round) + '  header slot ' +
+      (() => { const s = slot.getBoundingClientRect(); return [s.left, s.top, s.width].map(Math.round); })());
     const c0 = { x: r0.left + r0.width / 2, y: r0.top + r0.height / 2 };
     const WIND = 300, FLY = 480, SETTLE = 700;
     const WIND_S = 1.09, WIND_Y = 18, WIND_ROT = -3.5, ARC = Math.min(60, r0.width * .14);
-    const t0 = performance.now() + 140;          // let the curtain tug lead
+    let clock = -140, lastNow = null;            // -140: let the curtain tug lead
     let hit = false;
 
-    const frame = (now) => {
-      const t = now - t0;
+    let frames = 0;
+    const f3 = (v) => (Math.abs(v) < 1e-4 ? 0 : v).toFixed(3);   // never hand CSS exponent notation
+    const frame = (now) => { try { step(now); } catch (err) { dbg('frame error: ' + err.message); fly.style.transform = ''; finishIntro(); } };
+    const step = (now) => {
+      frames++;
+      // advance at most ~2 frames per frame: on a busy phone the flight slows a touch instead of skipping
+      clock += lastNow === null ? 0 : Math.min(34, Math.max(0, now - lastNow));
+      lastNow = now;
+      const t = clock;
       const r1 = slot.getBoundingClientRect();   // read live: the header can still be settling
       const s1 = r1.width / r0.width;
       const dx = r1.left + r1.width / 2 - c0.x, dy = r1.top + r1.height / 2 - c0.y;
@@ -164,7 +197,7 @@
         sy = 1 + .06 * Math.sin(Math.PI * p);    // stretches along its path
         sx = 1 - .04 * Math.sin(Math.PI * p);
       } else {                                   // slam, squash, spring back
-        if (!hit) { hit = true; impact(r1); }
+        if (!hit) { hit = true; dbg('impact after ' + frames + ' frames'); try { impact(r1); } catch (err) { dbg('impact effect error: ' + err.message); } }
         const k = (t - WIND - FLY) / 1000;
         const sp = spring(k, .5, 30);            // heavy and well damped: one firm rebound, no wobble
         s = s1 * (1 - .12 * sp);
@@ -174,17 +207,18 @@
         if (t >= WIND + FLY + SETTLE) {
           fly.style.transform = '';
           finishIntro();
+          dbg('landed, ' + frames + ' frames');
           return;
         }
       }
-      fly.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${s * sx}, ${s * sy})`;
+      fly.style.transform = `translate(${f3(x)}px, ${f3(y)}px) rotate(${f3(rot)}deg) scale(${f3(s * sx)}, ${f3(s * sy)})`;
       requestAnimationFrame(frame);
     };
     requestAnimationFrame(frame);
   };
   if (document.readyState === 'complete') setTimeout(lift, 400);
-  else window.addEventListener('load', () => setTimeout(lift, 400));
-  setTimeout(lift, 3500); // never block the page on a slow image
+  else window.addEventListener('load', () => { dbg('page load event'); setTimeout(lift, 400); });
+  setTimeout(() => { if (!lifted) dbg('load slow: starting intro anyway'); lift(); }, 3500); // never block the page on a slow image
 
   /* ---------- header shrink on scroll ---------- */
   const header = document.querySelector('[data-header]');
@@ -234,9 +268,11 @@
   /* ---------- hours: highlight today + live open/closed (New York time) ---------- */
   const HOURS = { 0: [10, 17], 1: [9, 20], 2: [9, 20], 3: [9, 20], 4: [9, 20], 5: [9, 21], 6: [8, 21] };
   const fmt = h => (h % 12 || 12) + (h < 12 ? ' AM' : ' PM');
-  const nyNow = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/New_York' }));
-  const day = nyNow.getDay();
-  const hr = nyNow.getHours() + nyNow.getMinutes() / 60;
+  const ny = {};
+  new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+    .formatToParts(new Date()).forEach(p => { ny[p.type] = p.value; });
+  const day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(ny.weekday);
+  const hr = (+ny.hour % 24) + (+ny.minute) / 60;
   const [open, close] = HOURS[day];
   const isOpen = hr >= open && hr < close;
 
@@ -262,7 +298,7 @@
   /* ---------- map: custom vintage style on OpenFreeMap vector tiles ---------- */
   const SHOP = [-73.89461, 40.82318];           // [lng, lat]
   const mapEl = document.getElementById('map');
-  if (window.maplibregl && mapEl) {
+  const initMap = () => {
     const C = {
       land: '#1E1611', park: '#262A18', water: '#17252A',
       bldgEdge: '#120C08',
@@ -342,5 +378,13 @@
     } catch (err) {
       mapEl.innerHTML = '<a class="map__fallback" href="https://www.google.com/maps/dir/?api=1&destination=982+Westchester+Ave+Bronx+NY+10459" target="_blank" rel="noopener">Open the map in Google Maps</a>';
     }
+  };
+  if (window.maplibregl && mapEl) {
+    if ('IntersectionObserver' in window) {
+      const mo = new IntersectionObserver((en) => {
+        if (en.some(e => e.isIntersecting)) { mo.disconnect(); dbg('map: building'); initMap(); }
+      }, { rootMargin: '900px 0px' });
+      mo.observe(mapEl);
+    } else initMap();
   }
 })();
