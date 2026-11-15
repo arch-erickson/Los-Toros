@@ -22,71 +22,99 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const easeInOut = (t) => (t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
-  // landing hit: shockwave ring, gold dust with gravity, and the header takes the blow
+  // landing hit: the surface cracks for a moment, one faint pressure ring, and a heavy, short thud
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const crackPath = (x, y, ang, len) => {
+    // straight runs with the odd sharp kink, like a real fracture
+    const pts = [[x, y]];
+    let a = ang, d = 0;
+    while (d < len) {
+      const seg = 9 + Math.random() * 16;
+      a += Math.random() < .3 ? (Math.random() - .5) * 1.1 : (Math.random() - .5) * .25;
+      a += (ang - a) * .25;                     // keeps heading roughly outward
+      x += Math.cos(a) * seg; y += Math.sin(a) * seg; d += seg;
+      pts.push([x, y]);
+    }
+    return pts;
+  };
+  // tapered sliver: thick at the root, a hairline at the tip
+  const sliver = (pts, w0) => {
+    const L = [], R = [], n = pts.length;
+    pts.forEach((p, i) => {
+      const q = pts[Math.min(n - 1, i + 1)], o = pts[Math.max(0, i - 1)];
+      const dx = q[0] - o[0], dy = q[1] - o[1], m = Math.hypot(dx, dy) || 1;
+      const w = (w0 * Math.pow(1 - i / (n - 1), .9) + .25) / 2;
+      L.push([p[0] - dy / m * w, p[1] + dx / m * w]); R.push([p[0] + dy / m * w, p[1] - dx / m * w]);
+    });
+    return 'M' + L.concat(R.reverse()).map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L') + 'Z';
+  };
+
   const impact = (r) => {
     const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
     const layer = document.createElement('div');
     layer.className = 'impact';
     document.body.appendChild(layer);
 
+    // one faint pressure ring
     const ring = document.createElement('div');
-    const d = r.width * 1.05;
+    const dia = r.width * 1.1;
     ring.className = 'impact__ring';
-    Object.assign(ring.style, { width: d + 'px', height: d + 'px', left: cx - d / 2 + 'px', top: cy - d / 2 + 'px' });
+    Object.assign(ring.style, { width: dia + 'px', height: dia + 'px', left: cx - dia / 2 + 'px', top: cy - dia / 2 + 'px' });
     layer.appendChild(ring);
-    ring.animate([{ transform: 'scale(.55)', opacity: .95 }, { transform: 'scale(2.3)', opacity: 0 }],
-      { duration: 700, easing: 'cubic-bezier(.1,.7,.3,1)', fill: 'forwards' });
+    ring.animate([{ transform: 'scale(.8)', opacity: .5 }, { transform: 'scale(1.6)', opacity: 0 }],
+      { duration: 650, easing: 'cubic-bezier(.15,.7,.3,1)', fill: 'forwards' });
 
-    const bits = [];
-    for (let i = 0; i < 26; i++) {
-      const el = document.createElement('i');
-      const size = 2 + Math.random() * 4;
-      el.className = 'impact__dust';
-      el.style.width = el.style.height = size + 'px';
-      if (Math.random() < .35) el.style.background = '#FBF3E2';
-      layer.appendChild(el);
-      // burst sideways and down, away from the ceiling it just hit
-      const ang = Math.PI * (Math.random() * 1.15 - .075);          // 0 = right, PI = left, through down
-      const spd = 260 + Math.random() * 420;
-      const side = Math.cos(ang) >= 0 ? 1 : -1;
-      bits.push({
-        el, x: cx + side * r.width * (.25 + Math.random() * .2), y: cy + r.height * (Math.random() * .3),
-        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd * .8 - 120, life: 650 + Math.random() * 450, age: 0
+    // the crack: a few fractures run out from the rim of the crest, sideways and down
+    const svg = document.createElementNS(SVGNS, 'svg');
+    svg.setAttribute('class', 'impact__crack');
+    svg.setAttribute('width', innerWidth); svg.setAttribute('height', innerHeight);
+    layer.appendChild(svg);
+    const scale = Math.min(1, r.width / 150);
+    const lines = [];
+    const heads = [-0.1, 0.55, Math.PI / 2 + (Math.random() - .5) * .6, Math.PI - 0.55, Math.PI + 0.1];
+    let reach = 0;
+    heads.forEach((h) => {
+      const a = h + (Math.random() - .5) * .35;
+      const sx = cx + Math.cos(a) * r.width * .4, sy = cy + Math.sin(a) * r.height * .38;
+      const main = crackPath(sx, sy, a, (55 + Math.random() * 60) * scale);
+      lines.push({ pts: main, w: 2.4 });
+      if (Math.random() < .7) {
+        const at = main[Math.floor(main.length * (.35 + Math.random() * .3))];
+        lines.push({ pts: crackPath(at[0], at[1], a + (Math.random() < .5 ? -1 : 1) * (.5 + Math.random() * .4), (18 + Math.random() * 26) * scale), w: 1.3 });
+      }
+      main.forEach(p => { reach = Math.max(reach, Math.hypot(p[0] - cx, p[1] - cy)); });
+    });
+    const g = document.createElementNS(SVGNS, 'g');
+    svg.appendChild(g);
+    lines.forEach(({ pts, w }) => {
+      const d = sliver(pts, w);
+      // a faint light lip under each split gives it depth; the dark sliver is the split itself
+      [['rgba(251,236,205,.16)', 'translate(.7 1)'], ['rgba(10,5,3,.9)', '']].forEach(([fill, tr]) => {
+        const p = document.createElementNS(SVGNS, 'path');
+        p.setAttribute('d', d); p.setAttribute('fill', fill);
+        if (tr) p.setAttribute('transform', tr);
+        g.appendChild(p);
       });
-    }
-    let last = performance.now();
-    const tick = (now) => {
-      const dt = Math.min(.04, (now - last) / 1000); last = now;
-      let alive = 0;
-      bits.forEach(p => {
-        p.age += dt * 1000;
-        if (p.age > p.life) { p.el.style.opacity = 0; return; }
-        alive++;
-        p.vy += 1300 * dt;                 // gravity
-        p.vx *= Math.pow(.18, dt);         // air drag
-        p.vy *= Math.pow(.5, dt);
-        p.x += p.vx * dt; p.y += p.vy * dt;
-        p.el.style.opacity = 1 - Math.pow(p.age / p.life, 2);
-        p.el.style.transform = `translate(${p.x}px, ${p.y}px)`;
-      });
-      if (alive) requestAnimationFrame(tick); else layer.remove();
-    };
-    requestAnimationFrame(tick);
+    });
+    // the fractures race outward from the point of impact
+    svg.animate([{ clipPath: `circle(${r.width * .3}px at ${cx}px ${cy}px)` }, { clipPath: `circle(${reach + 10}px at ${cx}px ${cy}px)` }],
+      { duration: 170, easing: 'cubic-bezier(.1,.8,.3,1)', fill: 'forwards' });
+    g.animate([{ opacity: 1 }, { opacity: 1, offset: .5 }, { opacity: 0 }], { duration: 1400, easing: 'ease-in', fill: 'forwards' });
     setTimeout(() => layer.remove(), 1600);
 
-    // the header and the page take the hit
-    header.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(5px)' }, { transform: 'translateY(-2.5px)' },
-      { transform: 'translateY(1px)' }, { transform: 'translateY(0)' }], { duration: 460, easing: 'ease-out' });
+    // a heavy, short thud through the header and the page
+    header.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(4px)', offset: .18 }, { transform: 'translateY(-1px)', offset: .5 }, { transform: 'translateY(0)' }],
+      { duration: 340, easing: 'ease-out' });
     const push = (sel, dir) => {
       const el = document.querySelector(sel);
-      if (el) el.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${dir * 12}px)` }, { transform: `translateX(${-dir * 4}px)` },
-        { transform: `translateX(${dir * 1.5}px)` }, { transform: 'translateX(0)' }], { duration: 620, easing: 'cubic-bezier(.2,.8,.3,1)' });
+      if (el) el.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${dir * 6}px)`, offset: .2 }, { transform: `translateX(${-dir * 1}px)`, offset: .6 }, { transform: 'translateX(0)' }],
+        { duration: 420, easing: 'ease-out' });
     };
     push('.nav__group--left', -1); push('.nav__group--right', 1); push('.lang', -1);
     const hc = document.querySelector('.hero__content');
-    if (hc) hc.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(6px)' }, { transform: 'translateY(-2px)' }, { transform: 'translateY(0)' }],
-      { duration: 520, easing: 'ease-out' });
-    if (navigator.vibrate) { try { navigator.vibrate(18); } catch (e) { /* not allowed before a tap: fine */ } }
+    if (hc) hc.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(4px)', offset: .2 }, { transform: 'translateY(0)' }],
+      { duration: 380, easing: 'ease-out' });
+    if (navigator.vibrate) { try { navigator.vibrate(24); } catch (e) { /* not allowed before a tap: fine */ } }
   };
 
   let lifted = false;
@@ -111,7 +139,7 @@
 
     const r0 = fly.getBoundingClientRect();
     const c0 = { x: r0.left + r0.width / 2, y: r0.top + r0.height / 2 };
-    const WIND = 300, FLY = 480, SETTLE = 950;
+    const WIND = 300, FLY = 480, SETTLE = 700;
     const WIND_S = 1.09, WIND_Y = 18, WIND_ROT = -3.5, ARC = Math.min(60, r0.width * .14);
     const t0 = performance.now() + 140;          // let the curtain tug lead
     let hit = false;
@@ -131,18 +159,18 @@
         const p = (t - WIND) / FLY, e = Math.pow(p, 2.3);
         x = dx * e - ARC * Math.sin(Math.PI * p);
         y = lerp(WIND_Y, dy, e);
-        s = Math.exp(lerp(Math.log(WIND_S), Math.log(s1 * .84), e));
-        rot = lerp(WIND_ROT, 5, e);
+        s = Math.exp(lerp(Math.log(WIND_S), Math.log(s1 * .88), e));
+        rot = lerp(WIND_ROT, 3, e);
         sy = 1 + .06 * Math.sin(Math.PI * p);    // stretches along its path
         sx = 1 - .04 * Math.sin(Math.PI * p);
       } else {                                   // slam, squash, spring back
         if (!hit) { hit = true; impact(r1); }
         const k = (t - WIND - FLY) / 1000;
-        const sp = spring(k, .3, 28);
-        s = s1 * (1 - .16 * sp);
-        sx = 1 + .1 * sp; sy = 1 - .1 * sp;
-        x = dx; y = dy + 7 * Math.exp(-7 * k) * Math.sin(26 * k);
-        rot = 5 * spring(k, .24, 19);
+        const sp = spring(k, .5, 30);            // heavy and well damped: one firm rebound, no wobble
+        s = s1 * (1 - .12 * sp);
+        sx = 1 + .07 * sp; sy = 1 - .07 * sp;
+        x = dx; y = dy + 4 * Math.exp(-10 * k) * Math.sin(24 * k);
+        rot = 3 * spring(k, .55, 22);
         if (t >= WIND + FLY + SETTLE) {
           fly.style.transform = '';
           finishIntro();

@@ -645,5 +645,5 @@ body.is-switching main, body.is-switching .nav, body.is-switching .overlay__inne
 .is-done .curtain { display: none; }
 body.intro-on .nav__logo { opacity: 0; }          /* the header slot waits for the landing */
 .impact { position: fixed; inset: 0; z-index: 101; pointer-events: none; overflow: hidden; }
-.impact__ring { position: absolute; border-radius: 50%; border: 2px solid var(--gold-light); box-shadow: 0 0 18px rgba(227,198,128,.45); }
-.impact__dust { position: absolute; left: 0; top: 0; border-radius: 50%; background: var(--gold-light); box-shadow: 0 0 6px rgba(227,198,128,.7); }
+.impact__ring { position: absolute; border-radius: 50%; border: 1px solid rgba(227,198,128,.7); box-shadow: 0 0 10px rgba(227,198,128,.18); }
+.impact__crack { position: absolute; inset: 0; overflow: visible; filter: drop-shadow(0 1px 1px rgba(0,0,0,.35)); }
