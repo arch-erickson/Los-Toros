@@ -3,10 +3,156 @@
   const body = document.body;
   const T = (k) => (window.LT_I18N ? window.LT_I18N.t(k) : k);
 
-  /* ---------- entrance curtain ---------- */
-  const lift = () => {
+  /* ---------- entrance: curtain opens, the crest flies up and slams into the header ---------- */
+  const curtain = document.querySelector('.curtain');
+  const fly = curtain && curtain.querySelector('.curtain__logo');
+  const slot = document.querySelector('.nav__logo');
+  const finishIntro = () => {
+    body.classList.remove('intro-on');
+    body.classList.add('is-loaded', 'is-done');
+  };
+
+  // the crest rises into view while the page loads
+  const enter = fly && fly.animate(
+    [{ opacity: 0, transform: 'translateY(22px) scale(.94)' }, { opacity: 1, transform: 'none' }],
+    { duration: 900, easing: 'cubic-bezier(.2,.8,.2,1)' });
+
+  // spring: starts at 1, rings and dies away (k in seconds)
+  const spring = (k, zeta, w) => Math.exp(-zeta * w * k) * Math.cos(w * Math.sqrt(1 - zeta * zeta) * k);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const easeInOut = (t) => (t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
+  // landing hit: shockwave ring, gold dust with gravity, and the header takes the blow
+  const impact = (r) => {
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    const layer = document.createElement('div');
+    layer.className = 'impact';
+    document.body.appendChild(layer);
+
+    const ring = document.createElement('div');
+    const d = r.width * 1.05;
+    ring.className = 'impact__ring';
+    Object.assign(ring.style, { width: d + 'px', height: d + 'px', left: cx - d / 2 + 'px', top: cy - d / 2 + 'px' });
+    layer.appendChild(ring);
+    ring.animate([{ transform: 'scale(.55)', opacity: .95 }, { transform: 'scale(2.3)', opacity: 0 }],
+      { duration: 700, easing: 'cubic-bezier(.1,.7,.3,1)', fill: 'forwards' });
+
+    const bits = [];
+    for (let i = 0; i < 26; i++) {
+      const el = document.createElement('i');
+      const size = 2 + Math.random() * 4;
+      el.className = 'impact__dust';
+      el.style.width = el.style.height = size + 'px';
+      if (Math.random() < .35) el.style.background = '#FBF3E2';
+      layer.appendChild(el);
+      // burst sideways and down, away from the ceiling it just hit
+      const ang = Math.PI * (Math.random() * 1.15 - .075);          // 0 = right, PI = left, through down
+      const spd = 260 + Math.random() * 420;
+      const side = Math.cos(ang) >= 0 ? 1 : -1;
+      bits.push({
+        el, x: cx + side * r.width * (.25 + Math.random() * .2), y: cy + r.height * (Math.random() * .3),
+        vx: Math.cos(ang) * spd, vy: Math.sin(ang) * spd * .8 - 120, life: 650 + Math.random() * 450, age: 0
+      });
+    }
+    let last = performance.now();
+    const tick = (now) => {
+      const dt = Math.min(.04, (now - last) / 1000); last = now;
+      let alive = 0;
+      bits.forEach(p => {
+        p.age += dt * 1000;
+        if (p.age > p.life) { p.el.style.opacity = 0; return; }
+        alive++;
+        p.vy += 1300 * dt;                 // gravity
+        p.vx *= Math.pow(.18, dt);         // air drag
+        p.vy *= Math.pow(.5, dt);
+        p.x += p.vx * dt; p.y += p.vy * dt;
+        p.el.style.opacity = 1 - Math.pow(p.age / p.life, 2);
+        p.el.style.transform = `translate(${p.x}px, ${p.y}px)`;
+      });
+      if (alive) requestAnimationFrame(tick); else layer.remove();
+    };
+    requestAnimationFrame(tick);
+    setTimeout(() => layer.remove(), 1600);
+
+    // the header and the page take the hit
+    header.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(5px)' }, { transform: 'translateY(-2.5px)' },
+      { transform: 'translateY(1px)' }, { transform: 'translateY(0)' }], { duration: 460, easing: 'ease-out' });
+    const push = (sel, dir) => {
+      const el = document.querySelector(sel);
+      if (el) el.animate([{ transform: 'translateX(0)' }, { transform: `translateX(${dir * 12}px)` }, { transform: `translateX(${-dir * 4}px)` },
+        { transform: `translateX(${dir * 1.5}px)` }, { transform: 'translateX(0)' }], { duration: 620, easing: 'cubic-bezier(.2,.8,.3,1)' });
+    };
+    push('.nav__group--left', -1); push('.nav__group--right', 1); push('.lang', -1);
+    const hc = document.querySelector('.hero__content');
+    if (hc) hc.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(6px)' }, { transform: 'translateY(-2px)' }, { transform: 'translateY(0)' }],
+      { duration: 520, easing: 'ease-out' });
+    if (navigator.vibrate) { try { navigator.vibrate(18); } catch (e) { /* not allowed before a tap: fine */ } }
+  };
+
+  let lifted = false;
+  const lift = async () => {
+    if (lifted) return;
+    lifted = true;
+    if (!curtain || !fly || !slot) { finishIntro(); return; }
+    // never wait on a stalled timeline (background tab, throttled frames)
+    await Promise.race([enter.finished.catch(() => {}), new Promise(r => setTimeout(r, 1100))]);
+    if (enter.playState !== 'finished') enter.cancel();
     body.classList.add('is-loaded');
-    setTimeout(() => body.classList.add('is-done'), 2200);
+    setTimeout(() => { if (!body.classList.contains('is-done')) { fly.style.transform = ''; finishIntro(); } }, 6000);
+
+    // curtains: a small tug toward the centre, then they swing open
+    const open = (el, dir) => el.animate([
+      { transform: 'translateX(0)', easing: 'cubic-bezier(.3,0,.4,1)' },
+      { transform: `translateX(${-dir * 1.6}%)`, offset: .14, easing: 'cubic-bezier(.7,0,.25,1)' },
+      { transform: `translateX(${dir * 101}%)` }
+    ], { duration: 1300, fill: 'forwards' });
+    open(curtain.querySelector('.curtain__panel--l'), -1);
+    open(curtain.querySelector('.curtain__panel--r'), 1);
+
+    const r0 = fly.getBoundingClientRect();
+    const c0 = { x: r0.left + r0.width / 2, y: r0.top + r0.height / 2 };
+    const WIND = 300, FLY = 480, SETTLE = 950;
+    const WIND_S = 1.09, WIND_Y = 18, WIND_ROT = -3.5, ARC = Math.min(60, r0.width * .14);
+    const t0 = performance.now() + 140;          // let the curtain tug lead
+    let hit = false;
+
+    const frame = (now) => {
+      const t = now - t0;
+      const r1 = slot.getBoundingClientRect();   // read live: the header can still be settling
+      const s1 = r1.width / r0.width;
+      const dx = r1.left + r1.width / 2 - c0.x, dy = r1.top + r1.height / 2 - c0.y;
+      let x = 0, y = 0, s = 1, sx = 1, sy = 1, rot = 0;
+
+      if (t <= 0) { /* hold */ }
+      else if (t < WIND) {                       // wind-up: sinks and swells, like it's being lifted
+        const p = easeInOut(t / WIND);
+        s = lerp(1, WIND_S, p); y = WIND_Y * p; rot = WIND_ROT * p;
+      } else if (t < WIND + FLY) {               // flight: accelerates all the way in
+        const p = (t - WIND) / FLY, e = Math.pow(p, 2.3);
+        x = dx * e - ARC * Math.sin(Math.PI * p);
+        y = lerp(WIND_Y, dy, e);
+        s = Math.exp(lerp(Math.log(WIND_S), Math.log(s1 * .84), e));
+        rot = lerp(WIND_ROT, 5, e);
+        sy = 1 + .06 * Math.sin(Math.PI * p);    // stretches along its path
+        sx = 1 - .04 * Math.sin(Math.PI * p);
+      } else {                                   // slam, squash, spring back
+        if (!hit) { hit = true; impact(r1); }
+        const k = (t - WIND - FLY) / 1000;
+        const sp = spring(k, .3, 28);
+        s = s1 * (1 - .16 * sp);
+        sx = 1 + .1 * sp; sy = 1 - .1 * sp;
+        x = dx; y = dy + 7 * Math.exp(-7 * k) * Math.sin(26 * k);
+        rot = 5 * spring(k, .24, 19);
+        if (t >= WIND + FLY + SETTLE) {
+          fly.style.transform = '';
+          finishIntro();
+          return;
+        }
+      }
+      fly.style.transform = `translate(${x}px, ${y}px) rotate(${rot}deg) scale(${s * sx}, ${s * sy})`;
+      requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
   };
   if (document.readyState === 'complete') setTimeout(lift, 400);
   else window.addEventListener('load', () => setTimeout(lift, 400));
